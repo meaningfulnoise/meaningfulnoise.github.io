@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meaningful Noise Collective</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Righteous&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Righteous', cursive;
+            background: linear-gradient(45deg, #FF1493, #00CED1, #FFD700, #FF6347);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow-x: hidden;
+            transition: background 0.8s ease;
+        }
+        
+        body.solid-bg {
+            animation: none;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 8px solid #000;
+            box-shadow: 12px 12px 0 #FF1493, 24px 24px 0 #00CED1;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        h1 {
+            font-family: 'Alfa Slab One', cursive;
+            font-size: 4.5em;
+            color: #FF1493;
+            text-shadow: 4px 4px 0 #00CED1, 8px 8px 0 #FFD700;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+            line-height: 1.1;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .tagline {
+            font-size: 1.5em;
+            color: #000;
+            background: #FFD700;
+            display: inline-block;
+            padding: 10px 30px;
+            border: 4px solid #000;
+            transform: rotate(-2deg);
+            box-shadow: 4px 4px 0 #FF1493;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            border: 6px solid #000;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            box-shadow: 8px 8px 0 #000;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            width: 100px;
+            height: 30px;
+            background: #FF6347;
+            border: 4px solid #000;
+            transform: rotate(-5deg);
+            z-index: 10;
+        }
+        
+        h2 {
+            font-family: 'Alfa Slab One', cursive;
+            font-size: 3em;
+            color: #00CED1;
+            text-shadow: 3px 3px 0 #FF1493;
+            margin-bottom: 20px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .card {
+            background: #FFD700;
+            border: 5px solid #000;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 6px 6px 0 #000;
+        }
+        
+        .card:hover {
+            transform: translate(-4px, -4px) rotate(-2deg);
+            box-shadow: 10px 10px 0 #000;
+        }
+        
+        .card:nth-child(2) {
+            background: #FF1493;
+            color: white;
+        }
+        
+        .card:nth-child(3) {
+            background: #00CED1;
+        }
+        
+        .card h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .geometric-art {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        .neural-layer {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .neural-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .connection-line {
+            stroke: #000;
+            stroke-width: 2;
+            opacity: 0.3;
+        }
+        
+        .shape {
+            width: 60px;
+            height: 60px;
+            animation: rotate360 4s linear infinite;
+            border: 4px solid #000;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .shape:hover {
+            transform: scale(1.2);
+        }
+        
+        .shape:nth-child(1) {
+            background: #FF1493;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+        
+        .shape:nth-child(2) {
+            background: #00CED1;
+            border-radius: 50%;
+        }
+        
+        .shape:nth-child(3) {
+            background: #FFD700;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+        
+        .shape:nth-child(4) {
+            background: #FF6347;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+        }
+        
+        @keyframes rotate360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .manifesto {
+            background: #FF6347;
+            color: white;
+            font-size: 1.3em;
+            line-height: 1.8;
+            padding: 40px;
+            border: 6px solid #000;
+            box-shadow: 8px 8px 0 #FFD700;
+            margin: 40px 0;
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .float-item {
+            position: absolute;
+            font-size: 3em;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(180deg); }
+        }
+        
+        .bg-shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+            border: 3px solid #000;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 0.15; transform: scale(1); }
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #FF1493;
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border: 5px solid #000;
+            text-decoration: none;
+            text-transform: uppercase;
+            box-shadow: 6px 6px 0 #000;
+            transition: all 0.3s;
+            margin: 20px 10px;
+        }
+        
+        .cta-button:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 9px 9px 0 #000;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #000;
+            color: #FFD700;
+            font-size: 1.2em;
+            margin-top: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 2em; }
+            .tagline { font-size: 1.2em; }
+        }
+        
+        .work-list {
+            margin-top: 30px;
+        }
+        
+        .work-item {
+            background: white;
+            border: 4px solid #000;
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 4px 4px 0 #000;
+        }
+        
+        .work-item:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #000;
+        }
+        
+        .work-item h3 {
+            font-size: 1.5em;
+            color: #FF1493;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .work-item .work-type {
+            font-size: 0.8em;
+            background: #00CED1;
+            color: white;
+            padding: 5px 15px;
+            border: 2px solid #000;
+        }
+        
+        .work-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 0;
+        }
+        
+        .work-details.active {
+            max-height: 800px;
+            margin-top: 20px;
+        }
+        
+        .work-content {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: #FFD700;
+            border: 3px solid #000;
+        }
+        
+        .work-image {
+            width: 200px;
+            height: 200px;
+            background: #FF1493;
+            border: 3px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+        }
+        
+        .work-description {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .ai-fact {
+            color: #000;
+            padding: 20px;
+            font-size: 1.1em;
+            text-align: center;
+            font-weight: bold;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            overflow: hidden;
+        }
+        
+        .ai-fact > div {
+            line-height: 1.3;
+        }
+        
+        .ai-fact.fade-out {
+            opacity: 0;
+        }
+        
+        .fact-source {
+            font-size: 0.8em;
+            font-weight: normal;
+            color: #FF1493;
+            text-decoration: underline;
+        }
+        
+        .fact-source:hover {
+            color: #00CED1;
+        }
+        
+        @media (max-width: 768px) {
+            .work-content {
+                grid-template-columns: 1fr;
+            }
+            .work-image {
+                width: 100%;
+            }
+            .geometric-art {
+                flex-direction: column;
+            }
+            .neural-layer {
+                flex-direction: row;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <header>
+            <h1>THE MEANINGFUL<br>NOISE COLLECTIVE</h1>
+            <div class="tagline">WHERE ART MEETS ALGORITHM</div>
+        </header>
+        
+        <div class="manifesto">
+            <strong>WHAT IS THE MNC?</strong> The Meaningful Noise Collective is the brainchild of one Jen Iofinova, with 
+            the goal of creating art through, with, and about AI. All art is created with friends who are curious about 
+            how the models really work, and by the ways humans interact with artificial intelligence. So really, 
+            the MNC is Jen, everyone who works with her or wants to, and anyone who has ever wittingly or unwittingly 
+            contributed data for training the AI models that our art - and increasingly society - rely on.
+        </div>
+
+        <div class="section">
+            <h2>OUR WORK</h2>
+            <div class="work-list">
+                <div class="work-item" onclick="toggleWork(0)">
+                    <h3>
+                        <span>Hacking Generative Models with Differentiable Network Bending</span>
+                        <span class="work-type">Paper</span>
+                    </h3>
+                    <div class="work-details" id="work-0">
+                        <div class="work-content">
+                            <div class="work-image"><img src="butterflies_gan.png" style="width: 100%;"></div>
+                            <div class="work-description">
+                                (Joint work: Giacomo Aldegheri, Alina Rogalska, Ahmed Youssef, Eugenia Iofinova. 
+                                Published at NeurIPS for Creativity Workshop, 2023) 
+                                We propose a method to ’hack’ generative models, pushing their
+                                outputs away from the original training distribution towards a new objective. We
+                                inject a small-scale trainable module between the intermediate layers of the model
+                                and train it for a low number of iterations, keeping the rest of the network frozen.
+                                The resulting output images display an uncanny quality, given by the tension
+                                between the original and new objectives that can be exploited for artistic purposes.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="work-item" onclick="toggleWork(1)">
+                    <h3>
+                        <span>Pushing the Boundaries of AI Art: an Immodest Proposal</span>
+                        <span class="work-type">Paper</span>
+                    </h3>
+                    <div class="work-details" id="work-1">
+                        <div class="work-content">
+                            <div class="work-image" style="background: #00CED1;"><img src="immodest_proposal.png" style="width: 100%;"></div>
+                            <div class="work-description">
+                                (Published at NeurIPS for Creativity Workshop, 2024) 
+                                Recent advances across the field of machine learning have created a world in which the 
+                                existent, publicly available models, training tools, and compute enable unprecedented 
+                                access to model building and deployment. This development creates a number of 
+                                well-documented novel dangers, it also presents also an opportunity for relatively 
+                                under-resourced artistic cooperatives and even individual artists, to create interactive 
+                                and performance art outside of the scope we conventionally see in the “AI Art” community 
+                                today. Inspired by this development, this work argues for the artistic merit of expanding 
+                                the scope of what we think of AI Art far past what we have so far seen exhibited in venues 
+                                such as NeurIPS and in museums. We propose a movement toward art that is more directly 
+                                provocative, that centers humans rather than the “AI”, and that engages with model 
+                                training rather than simply inference. As a proof of concept, we describe a fictional 
+                                interactive exhibit, the Penametron, which invites the users to interact with, and 
+                                contribute to the training of, a model that estimates the length of a (fully clothed) 
+                                visitor’s penis.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="work-item" onclick="toggleWork(2)">
+                    <h3>
+                        <span>Penametron V1</span>
+                        <span class="work-type" style="background: #FF6347;">EXHIBIT</span>
+                    </h3>
+                    <div class="work-details" id="work-2">
+                        <div class="work-content">
+                            <div class="work-image" style="background: #FFD700; color: #000;"><img src="Cocie_van_Haecht_penametron.png" style="width: 100%;"></div>
+                            <div class="work-description">
+                                (Exhibited at Vienna Art Week 2025) The Penametron v1 is an interactive art exhibit whose primary purpose is to 
+                                estimate the total length of penis present in the camera’s image using state-of-the-art
+                                 machine learning methods. In obtaining and publicly showcasing this estimate, 
+                                 the Penametron asks the viewer to engage with the breakdown of the divide between 
+                                 public and private information in the age of AI, the provenance and veracity of data 
+                                 on which the models are built.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>OUR PILLARS</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>📐 MODELS</h3>
+                    <p>You build'em, we break'em. Or, at least, subvert them.</p>
+                </div>
+                <div class="card">
+                    <h3>🔬 DATA</h3>
+                    <p>It's everywhere, but somehow there's not enough of it.</p>
+                </div>
+                <div class="card">
+                    <h3>🤖 PEOPLE</h3>
+                    <p>Without people, there is no AI. Let's hope the converse doesn't come true.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>RANDOM FUN SECTION</h2>
+            <div class="geometric-art" id="neuralNetwork">
+                <svg class="neural-connections" id="connections"></svg>
+            </div>
+            <div id="aiFact" style="min-height: 100px;"></div>
+        </div>
+        
+        
+        <!-- <div class="section" style="text-align: center;">
+            <h2>JOIN THE MOVEMENT</h2>
+            <p style="font-size: 1.3em; margin: 30px 0;">Be part of the revolution where creativity computes and algorithms inspire</p>
+            <a href="#" class="cta-button">CONNECT</a>
+            <a href="#" class="cta-button" style="background: #00CED1;">CREATE</a>
+        </div> -->
+    </div>
+    
+    <footer>
+        <p>MEANINGFUL NOISE COLLECTIVE © 2025</p>
+        <p style="margin-top: 10px; opacity: 0.8;">MAKING BEAUTIFUL NOISE SINCE THE FUTURE</p>
+    </footer>
+    
+    <script>
+        // AI and Art Facts with sources
+        const aiFacts = [
+            {
+                fact: "The first AI-generated artwork sold at auction for $432,500 at Christie's in 2018.",
+                source: "https://www.christies.com/features/A-collaboration-between-two-artists-one-human-one-a-machine-9332-1.aspx"
+            },
+            {
+                fact: "Neural networks are inspired by the structure of the human brain, with layers of interconnected nodes.",
+                source: "https://www.ibm.com/topics/neural-networks"
+            },
+            {
+                fact: "The term 'artificial intelligence' was first coined in 1956 at the Dartmouth Conference.",
+                source: "https://en.wikipedia.org/wiki/Dartmouth_workshop"
+            },
+            {
+                fact: "GANs (Generative Adversarial Networks) work by having two neural networks compete against each other.",
+                source: "https://arxiv.org/abs/1406.2661"
+            },
+            {
+                fact: "AI can now generate music, poetry, and visual art that humans often can't distinguish from human-created work.",
+                source: "https://www.nature.com/articles/s41599-023-02064-3"
+            },
+            {
+                fact: "Deep learning models can contain billions of parameters, requiring massive computational power to train.",
+                source: "https://arxiv.org/abs/2001.08361"
+            },
+            {
+                fact: "The first computer-generated art was created in the 1960s using algorithms and plotters.",
+                source: "https://www.metmuseum.org/perspectives/articles/2020/9/generative-art"
+            },
+            {
+                fact: "AI image generators are trained on millions of images, learning patterns and relationships in visual data.",
+                source: "https://openai.com/research/dall-e-2"
+            },
+            {
+                fact: "Artists like Refik Anadol use AI to transform data into immersive visual experiences.",
+                source: "https://refikanadol.com/"
+            },
+            {
+                fact: "The concept of 'latent space' in AI refers to compressed representations of data that models learn.",
+                source: "https://arxiv.org/abs/1312.6114"
+            },
+            {
+                fact: "Transformer models revolutionized AI by introducing attention mechanisms that process relationships between data.",
+                source: "https://arxiv.org/abs/1706.03762"
+            },
+            {
+                fact: "AI art raises questions about authorship, creativity, and what it means to be an artist.",
+                source: "https://www.theverge.com/2022/9/15/23340673/ai-generated-art-debate-ownership-creativity"
+            },
+            {
+                fact: "Some AI models can now describe images in natural language and generate images from text descriptions.",
+                source: "https://openai.com/research/clip"
+            },
+            {
+                fact: "The training process for large AI models can take weeks and use as much energy as several households in a year.",
+                source: "https://arxiv.org/abs/1906.02243"
+            },
+            {
+                fact: "AI can identify artistic styles and even forge paintings in the style of famous artists.",
+                source: "https://arxiv.org/abs/1508.06576"
+            },
+            {
+                fact: "Neural style transfer allows AI to apply the artistic style of one image to the content of another.",
+                source: "https://arxiv.org/abs/1508.06576"
+            },
+            {
+                fact: "AI systems have been used to complete unfinished symphonies and restore damaged artworks.",
+                source: "https://www.scientificamerican.com/article/ai-completes-beethovens-unfinished-10th-symphony/"
+            },
+            {
+                fact: "The 'black box' problem in AI refers to the difficulty in understanding how models make decisions.",
+                source: "https://www.nature.com/articles/s42256-019-0048-x"
+            },
+            {
+                fact: "AI-generated art has sparked debates about copyright, ownership, and the value of human creativity.",
+                source: "https://www.copyright.gov/ai/"
+            },
+            {
+                fact: "Some artists use AI as a collaborative tool, treating it as a creative partner rather than just a tool.",
+                source: "https://www.technologyreview.com/2022/12/16/1065005/generative-ai-art-creativity/"
+            }
+        ];
+        
+        let currentFact = null;
+        let factTimeout = null;
+        
+        function showRandomFact() {
+            let newFact;
+            do {
+                newFact = aiFacts[Math.floor(Math.random() * aiFacts.length)];
+            } while (newFact === currentFact && aiFacts.length > 1);
+            
+            currentFact = newFact;
+            const factDiv = document.getElementById('aiFact');
+            factDiv.innerHTML = '<div class="ai-fact"><div>' + newFact.fact + '</div><a href="' + newFact.source + '" target="_blank" class="fact-source">Source</a></div>';
+            
+            // Clear existing timeout
+            if (factTimeout) {
+                clearTimeout(factTimeout);
+            }
+            
+            // Fade out and clear after 10 seconds
+            factTimeout = setTimeout(() => {
+                const factElement = factDiv.querySelector('.ai-fact');
+                if (factElement) {
+                    factElement.classList.add('fade-out');
+                    setTimeout(() => {
+                        factDiv.innerHTML = '';
+                    }, 500);
+                }
+            }, 10000);
+        }
+        
+        // Create neural network structure
+        const networkContainer = document.getElementById('neuralNetwork');
+        const connectionsCanvas = document.getElementById('connections');
+        
+        const layers = [3, 5, 4, 3]; // nodes per layer
+        const shapes = ['diamond', 'circle', 'triangle', 'hexagon'];
+        const colors = ['#FF1493', '#00CED1', '#FFD700', '#FF6347'];
+        const nodePositions = [];
+        
+        // Create layers
+        layers.forEach((nodeCount, layerIndex) => {
+            const layer = document.createElement('div');
+            layer.className = 'neural-layer';
+            
+            for (let i = 0; i < nodeCount; i++) {
+                const shapeType = Math.floor(Math.random() * shapes.length);
+                const colorIndex = Math.floor(Math.random() * colors.length);
+                const node = document.createElement('div');
+                node.className = 'shape';
+                node.style.background = colors[colorIndex];
+                node.dataset.shapeType = shapeType;
+                
+                // Apply shape styles
+                if (shapes[shapeType] === 'diamond') {
+                    node.style.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+                } else if (shapes[shapeType] === 'circle') {
+                    node.style.borderRadius = '50%';
+                } else if (shapes[shapeType] === 'triangle') {
+                    node.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+                } else if (shapes[shapeType] === 'hexagon') {
+                    node.style.clipPath = 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)';
+                }
+                
+                node.addEventListener('click', function() {
+                    handleNodeClick(this, shapeType, colors[colorIndex]);
+                });
+                
+                layer.appendChild(node);
+            }
+            
+            networkContainer.appendChild(layer);
+        });
+        
+        // Draw connections between layers
+        setTimeout(() => {
+            drawConnections();
+        }, 100);
+        
+        function drawConnections() {
+            const layers = document.querySelectorAll('.neural-layer');
+            const containerRect = networkContainer.getBoundingClientRect();
+            
+            // Clear existing connections
+            connectionsCanvas.innerHTML = '';
+            
+            // Calculate SVG size
+            connectionsCanvas.setAttribute('width', containerRect.width);
+            connectionsCanvas.setAttribute('height', containerRect.height);
+            
+            for (let l = 0; l < layers.length - 1; l++) {
+                const currentLayer = layers[l];
+                const nextLayer = layers[l + 1];
+                const currentNodes = currentLayer.querySelectorAll('.shape');
+                const nextNodes = nextLayer.querySelectorAll('.shape');
+                
+                currentNodes.forEach(node1 => {
+                    const rect1 = node1.getBoundingClientRect();
+                    const x1 = rect1.left + rect1.width / 2 - containerRect.left;
+                    const y1 = rect1.top + rect1.height / 2 - containerRect.top;
+                    
+                    nextNodes.forEach(node2 => {
+                        const rect2 = node2.getBoundingClientRect();
+                        const x2 = rect2.left + rect2.width / 2 - containerRect.left;
+                        const y2 = rect2.top + rect2.height / 2 - containerRect.top;
+                        
+                        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                        line.setAttribute('x1', x1);
+                        line.setAttribute('y1', y1);
+                        line.setAttribute('x2', x2);
+                        line.setAttribute('y2', y2);
+                        line.setAttribute('class', 'connection-line');
+                        connectionsCanvas.appendChild(line);
+                    });
+                });
+            }
+        }
+        
+        // Redraw connections on window resize
+        window.addEventListener('resize', drawConnections);
+        
+        function handleNodeClick(node, shapeType, color) {
+            // Show random fact
+            showRandomFact();
+            
+            // Change background and add shapes
+            document.body.classList.add('solid-bg');
+            document.body.style.background = color;
+            
+            floatingContainer.innerHTML = '';
+            
+            const contrastColors = {
+                'rgb(255, 20, 147)': 'rgba(0, 206, 209, 0.5)',
+                'rgb(0, 206, 209)': 'rgba(255, 215, 0, 0.5)',
+                'rgb(255, 215, 0)': 'rgba(255, 20, 147, 0.5)',
+                'rgb(255, 99, 71)': 'rgba(255, 215, 0, 0.5)'
+            };
+            
+            const bgColor = contrastColors[color] || 'rgba(255, 215, 0, 0.5)';
+            
+            for (let i = 0; i < 20; i++) {
+                const bgShape = document.createElement('div');
+                bgShape.className = 'bg-shape';
+                
+                const size = 50 + Math.random() * 150;
+                bgShape.style.width = size + 'px';
+                bgShape.style.height = size + 'px';
+                bgShape.style.left = Math.random() * 100 + '%';
+                bgShape.style.top = Math.random() * 100 + '%';
+                bgShape.style.animationDelay = Math.random() * 6 + 's';
+                bgShape.style.animation = 'fadeIn 0.5s ease-out, float 6s ease-in-out infinite';
+                bgShape.style.background = bgColor;
+                
+                if (shapeType === 0) {
+                    bgShape.style.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+                } else if (shapeType === 1) {
+                    bgShape.style.borderRadius = '50%';
+                } else if (shapeType === 2) {
+                    bgShape.style.clipPath = 'polygon(50% 0%, 100% 100%, 0% 100%)';
+                } else {
+                    bgShape.style.clipPath = 'polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%)';
+                }
+                
+                floatingContainer.appendChild(bgShape);
+            }
+            
+            node.style.transform = 'scale(1.5)';
+            setTimeout(() => {
+                node.style.transform = '';
+            }, 300);
+        }
+        
+        // Create floating mathematical symbols
+        const symbols = ['∞', 'π', '∑', '∫', '≈', '∆', '√', 'α', 'β', 'γ'];
+        const floatingContainer = document.getElementById('floatingElements');
+        
+        function createFloatingSymbols() {
+            floatingContainer.innerHTML = '';
+            for (let i = 0; i < 15; i++) {
+                const item = document.createElement('div');
+                item.className = 'float-item';
+                item.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                item.style.left = Math.random() * 100 + '%';
+                item.style.top = Math.random() * 100 + '%';
+                item.style.animationDelay = Math.random() * 6 + 's';
+                item.style.color = ['#FF1493', '#00CED1', '#FFD700', '#FF6347'][Math.floor(Math.random() * 4)];
+                floatingContainer.appendChild(item);
+            }
+        }
+        
+        createFloatingSymbols();
+        
+        // Toggle work details
+        function toggleWork(index) {
+            const details = document.getElementById('work-' + index);
+            details.classList.toggle('active');
+        }
+        
+        // Add click effects to cards
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'rotate(360deg) scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 600);
+            });
+        });
+        
+        // Add parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const floatItems = document.querySelectorAll('.float-item, .bg-shape');
+            floatItems.forEach((item, index) => {
+                const speed = (index % 3 + 1) * 0.5;
+                item.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
